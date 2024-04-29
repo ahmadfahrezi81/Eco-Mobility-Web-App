@@ -7,11 +7,13 @@ import { FIREBASE_AUTH } from "@/firebaseconfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Page() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const auth = FIREBASE_AUTH;
+    const router = useRouter(); // Create a router instance
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault();
@@ -22,6 +24,7 @@ export default function Page() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            router.push("/dashboard");
             console.log("Login successful");
         } catch (error) {
             console.error("Login failed", error);

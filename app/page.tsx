@@ -25,11 +25,11 @@ export default function HomePage() {
                         "text-center text-5xl font-bold leading-tight tracking-tighter"
                     )}
                 >
-                    Build your component library
+                    UM Eco-Mobility: <br /> A Campus Sustainability Tracker
                 </h1>
                 <p className="text-center text-lg font-light text-foreground">
-                    Beautifully designed components that you can copy and <br />
-                    paste into your apps. Accessible. Customizable. Open Source.
+                    Discover how your university community is progressing
+                    towards <br /> sustainability with UM Eco-Mobility.
                 </p>
                 <Link href={"/sign-in"}>
                     <Button className="mx-auto">Sign In</Button>

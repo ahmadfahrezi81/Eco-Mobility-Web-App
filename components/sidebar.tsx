@@ -15,6 +15,9 @@ import {
     Settings,
     LogOutIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { FIREBASE_AUTH } from "@/firebaseconfig";
+import { signOut } from "firebase/auth";
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -51,6 +54,17 @@ const routes = [
 ];
 
 export default function Sidebar() {
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(FIREBASE_AUTH); // Perform the sign out
+            router.push("/"); // Redirect to the home page
+        } catch (error) {
+            console.error("Failed to log out:", error);
+        }
+    };
+
     const pathname = usePathname();
 
     return (
@@ -93,18 +107,15 @@ export default function Sidebar() {
             <hr className="mt-auto" />
 
             <div className="space-y-1 px-3 flex-col justify-between">
-                <Link
-                    href={""}
-                    // key={route.href}
-                    className={cn(
-                        "text-sm group flex p-3 w-full justify-center font-medium cursor-pointer hover:bg-red-600 hover:text-white rounded-lg transition text-red-600"
-                    )}
+                <button
+                    onClick={handleLogout}
+                    className="text-sm group flex p-3 w-full justify-center font-medium cursor-pointer hover:bg-red-600 hover:text-white rounded-lg transition text-red-600"
                 >
                     <div className="flex items-center flex-1">
                         <LogOutIcon className="h-5 w-5 mr-3" />
                         Log out
                     </div>
-                </Link>
+                </button>
             </div>
         </div>
     );
