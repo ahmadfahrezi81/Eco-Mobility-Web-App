@@ -31,6 +31,11 @@ const profileFormSchema = z.object({
         .max(30, {
             message: "Name must not be longer than 30 characters.",
         }),
+    email: z.string().email({
+        message: "Email must be a valid email address.",
+    }),
+    id: z.string(), // You may choose z.number() based on what ID represents
+    date: z.string(), // Change type if you enforce a Date object
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -39,7 +44,9 @@ const defaultValues: Partial<ProfileFormValues> = {
     email: "example@example.com",
     id: "123456",
     date: "01/01/2022",
+    name: "",
 };
+
 export default function SettingsPage() {
     const router = useRouter();
 
@@ -49,11 +56,6 @@ export default function SettingsPage() {
         resolver: zodResolver(profileFormSchema),
         defaultValues,
         mode: "onChange",
-    });
-
-    const { fields, append } = useFieldArray({
-        name: "urls",
-        control: form.control,
     });
 
     return (

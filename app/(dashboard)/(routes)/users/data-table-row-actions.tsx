@@ -48,6 +48,7 @@ interface DataTableRowActionsProps<TData> {
 
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
+import { User } from "./columns";
 
 const formSchema = z.object({
     name: z
@@ -60,7 +61,7 @@ const formSchema = z.object({
         }),
 });
 
-export function DataTableRowActions<TData>({
+export function DataTableRowActions<TData extends User>({
     row,
 }: DataTableRowActionsProps<TData>) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -118,7 +119,7 @@ export function DataTableRowActions<TData>({
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                                            User's name
+                                            User&apos;s name
                                         </FormLabel>
                                         <FormControl>
                                             <Input

@@ -26,7 +26,7 @@ export default function DashboardPage() {
     // const [activities, setActivities] = useState([]);
 
     const [loading, setLoading] = useState(true);
-    const [activities, setActivities] = useState([]);
+    const [activities, setActivities] = useState<any>([]);
 
     useEffect(() => {
         const trackingActivitiesRef = collection(
@@ -50,7 +50,7 @@ export default function DashboardPage() {
 
                 Promise.all(promises)
                     .then((allSnapshots) => {
-                        const filteredData = [];
+                        const filteredData: any[] = [];
 
                         allSnapshots.forEach((userTrackingSnapshot) => {
                             userTrackingSnapshot.forEach((userDoc) => {

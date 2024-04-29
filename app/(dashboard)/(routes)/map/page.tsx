@@ -32,7 +32,7 @@ export default function DashboardPage() {
         lng: -38.523,
     };
 
-    const [trackingPaths, setTrackingPaths] = useState([]);
+    const [trackingPaths, setTrackingPaths] = useState<any>([]);
     const [heatmapPoints, setHeatmapPoints] = useState([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -116,7 +116,7 @@ export default function DashboardPage() {
 
                 Promise.all(promises)
                     .then((allSnapshots) => {
-                        const fetchedPaths = [];
+                        const fetchedPaths: any[] = [];
                         const heatmapData = [];
 
                         allSnapshots.forEach((userTrackingSnapshot) => {
@@ -126,7 +126,7 @@ export default function DashboardPage() {
                                 if (data.coordinates) {
                                     // Transform the coordinates here
                                     const transformedCoordinates =
-                                        data.coordinates.map((coord) => ({
+                                        data.coordinates.map((coord: any) => ({
                                             lat: coord.latitude,
                                             lng: coord.longitude,
                                         }));
@@ -174,7 +174,7 @@ export default function DashboardPage() {
                         zoom={10}
                     >
                         {trackingPaths.length > 0 &&
-                            trackingPaths.map((paths, i) => (
+                            trackingPaths.map((paths: any, i: number) => (
                                 <Polyline
                                     key={i}
                                     path={paths}
@@ -182,8 +182,8 @@ export default function DashboardPage() {
                                         strokeColor: "#FF0000",
                                         strokeOpacity: 0.8,
                                         strokeWeight: 2,
-                                        fillColor: "#FF0000",
-                                        fillOpacity: 0.35,
+                                        // fillColor: "#FF0000",
+                                        // fillOpacity: 0.35,
                                     }}
                                 />
                             ))}

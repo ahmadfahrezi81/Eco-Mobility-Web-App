@@ -83,8 +83,14 @@ export default function EmissionLineChart({ data }: any) {
                         day: "2-digit",
                     })
                 ) {
-                    emission +=
-                        item.distance * getCO2EmissionRate(item.vehicle);
+                    if (item.vehicle) {
+                        const co2EmissionRate = getCO2EmissionRate(
+                            item.vehicle
+                        );
+                        if (co2EmissionRate !== null) {
+                            emission += item.distance * co2EmissionRate;
+                        }
+                    }
                 }
             });
 

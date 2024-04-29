@@ -18,6 +18,7 @@ export interface User {
     uid: string;
     joinedDate: Timestamp;
     profileImgURL?: string;
+    lastUpdated?: Timestamp;
 }
 
 const getInitials = (fullName: string): string => {

@@ -9,29 +9,57 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+
+const formSchema = z.object({
+    email: z.string().email({
+        message: "Invalid email address.",
+    }),
+    password: z.string().min(6, {
+        message: "Password must be at least 6 characters.",
+    }),
+});
 
 export default function Page() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const auth = FIREBASE_AUTH;
     const router = useRouter(); // Create a router instance
 
-    async function onSubmit(event: React.SyntheticEvent) {
-        event.preventDefault();
-        setIsLoading(true);
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-        const email = event.currentTarget.email.value;
-        const password = event.currentTarget.password.value;
+    const isLoading = form.formState.isSubmitting;
 
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(
+                auth,
+                values.email,
+                values.password
+            );
+
+            form.reset();
+
             router.push("/dashboard");
-            console.log("Login successful");
         } catch (error) {
             console.error("Login failed", error);
         }
-
-        setIsLoading(false);
-    }
+    };
+    false;
 
     return (
         <>
@@ -89,40 +117,115 @@ export default function Page() {
                                 Enter your email below to login to your account
                             </p>
                         </div>
-                        <form onSubmit={onSubmit}>
-                            <div className="grid gap-2">
-                                <div className="grid gap-1">
-                                    <Label className="sr-only" htmlFor="email">
-                                        Email
-                                    </Label>
-                                    <Input
-                                        id="email"
-                                        placeholder="Enter your email"
-                                        type="email"
-                                        autoCapitalize="none"
-                                        autoComplete="email"
-                                        autoCorrect="off"
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                                <div className="grid gap-1">
-                                    <Label
-                                        className="sr-only"
-                                        htmlFor="password"
-                                    >
-                                        Password
-                                    </Label>
-                                    <Input
-                                        id="password"
-                                        placeholder="Enter your password"
-                                        type="password"
-                                        autoCapitalize="none"
-                                        autoCorrect="off"
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                                <Button disabled={isLoading}>
-                                    {isLoading && (
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                {/* <div className="grid gap-2">
+                                    <div className="grid gap-1">
+                                        <Label
+                                            className="sr-only"
+                                            htmlFor="email"
+                                        >
+                                            Email
+                                        </Label>
+                                        <Input
+                                            id="email"
+                                            placeholder="Enter your email"
+                                            type="email"
+                                            autoCapitalize="none"
+                                            autoComplete="email"
+                                            autoCorrect="off"
+                                            disabled={isLoading}
+                                        />
+                                    </div>
+                                    <div className="grid gap-1">
+                                        <Label
+                                            className="sr-only"
+                                            htmlFor="password"
+                                        >
+                                            Password
+                                        </Label>
+                                        <Input
+                                            id="password"
+                                            placeholder="Enter your password"
+                                            type="password"
+                                            autoCapitalize="none"
+                                            autoCorrect="off"
+                                            disabled={isLoading}
+                                        />
+                                    </div>
+                                    <Button disabled={isLoading}>
+                                        {isLoading && (
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="mr-2 h-4 w-4 animate-spin"
+                                            >
+                                                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                                            </svg>
+                                        )}
+                                        Sign In
+                                    </Button>
+                                </div> */}
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                                                Email
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    id="email"
+                                                    type="email"
+                                                    placeholder="Enter your email"
+                                                    autoCapitalize="none"
+                                                    autoComplete="email"
+                                                    autoCorrect="off"
+                                                    disabled={isLoading}
+                                                    className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Password Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                                                Password
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    id="password"
+                                                    type="password"
+                                                    placeholder="Enter your password"
+                                                    autoCapitalize="none"
+                                                    autoCorrect="off"
+                                                    disabled={isLoading}
+                                                    className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button disabled={isLoading} className="mt-4">
+                                    {isLoading ? (
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -137,11 +240,11 @@ export default function Page() {
                                         >
                                             <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                                         </svg>
-                                    )}
+                                    ) : null}
                                     Sign In
                                 </Button>
-                            </div>
-                        </form>
+                            </form>
+                        </Form>
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
                             <Link

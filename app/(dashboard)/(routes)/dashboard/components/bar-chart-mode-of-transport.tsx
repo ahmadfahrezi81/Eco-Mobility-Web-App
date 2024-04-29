@@ -152,8 +152,34 @@ export default function BarChartModeOfTransport({ data }: any) {
         const dates = getLast7Days();
         const vehicles = ["walk", "motorcycle", "car", "bus"];
 
+        // const formattedData = dates.map((date, index) => {
+        //     const vehicleData = {};
+
+        //     data.forEach((item: any) => {
+        //         const endTimeDate = new Date(item.endTime.seconds * 1000);
+        //         const itemDate = endTimeDate.toLocaleDateString("en-US", {
+        //             month: "short",
+        //             day: "2-digit",
+        //         });
+
+        //         if (date === itemDate) {
+        //             vehicles.forEach((vehicle) => {
+        //                 if (!vehicleData[vehicle]) {
+        //                     vehicleData[vehicle] = 0;
+        //                 }
+        //                 if (item.vehicle === vehicle) {
+        //                     vehicleData[vehicle]++;
+        //                 }
+        //             });
+        //         }
+        //     });
+
+        //     return { name: date, ...vehicleData };
+        // });
+
         const formattedData = dates.map((date, index) => {
-            const vehicleData = {};
+            // Define vehicleData with an index signature
+            const vehicleData: { [key: string]: number } = {};
 
             data.forEach((item: any) => {
                 const endTimeDate = new Date(item.endTime.seconds * 1000);
@@ -176,7 +202,6 @@ export default function BarChartModeOfTransport({ data }: any) {
 
             return { name: date, ...vehicleData };
         });
-
         return formattedData;
     };
 

@@ -16,7 +16,15 @@ export default function HomePage() {
                     />
                     <h1 className="text-lg font-bold ml-2">UM Eco-Mobility</h1>
                 </Link>
-                <Button className="ml-auto">Request Access</Button>
+                {/* <Button className="ml-auto">Request Access</Button> */}
+                <a
+                    href="https://forms.gle/VmWK9fAomZjmxU4t5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto"
+                >
+                    <Button className="ml-auto">Request Access</Button>
+                </a>
             </div>
 
             <div className="flex flex-col justify-center gap-3 items-center h-[80vh]">

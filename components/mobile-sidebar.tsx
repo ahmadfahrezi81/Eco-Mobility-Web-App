@@ -4,7 +4,6 @@ import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "./Sidebar.1";
 import { use, useEffect, useState } from "react";
 
 export default function MobileSidebar() {
