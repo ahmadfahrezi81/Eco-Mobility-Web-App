@@ -95,7 +95,7 @@ const renderCustomizedLabel = ({
 
 export default function PieChartModeOfTransport({ data }: any) {
     const generateRandomData = (data: any) => {
-        const vehicleGroups = ["walk", "motorcycle", "car", "bus"];
+        const vehicleGroups = ["walking", "motorcycle", "car", "bus"];
         const groupedData = vehicleGroups.map((group) => ({
             name: group,
             value: data.filter((item: any) => item.vehicle === group).length,

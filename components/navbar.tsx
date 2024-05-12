@@ -3,6 +3,8 @@
 import MobileSidebar from "@/components/mobile-sidebar";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "@/firebaseconfig";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const getInitials = (fullName: string): string => {
     return fullName
@@ -14,37 +16,28 @@ const getInitials = (fullName: string): string => {
         .join(""); // Join all characters to form the initials
 };
 
-export default function Navbar() {
-    const [date, setDate] = useState(new Date());
-    const name = "Ahmad Farhezi";
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setDate(new Date());
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
+export default function Navbar({ name }: { name: string }) {
     return (
-        <div className="flex items-center p-4 h-16 border-b-[1px] bg-white">
-            <div className="flex-1">
-                <p className="text-[15px] font-semibold">Hello {name},</p>
-                <p className="text-sm font-medium text-slate-600">
-                    Today is {date.toDateString()}
-                </p>
+        <>
+            <div className="flex items-center p-4 h-16 border-b-[1px] bg-white">
+                <div className="flex-1">
+                    {/* <p className="text-[15px] font-semibold">Hello {name}</p> */}
+                    {/* <p className="text-sm font-medium text-slate-600">
+                        Today is {new Date().toDateString()}
+                    </p> */}
+                </div>
+
+                <Avatar>
+                    <AvatarImage src={""} />
+                    <AvatarFallback>{getInitials(name)}</AvatarFallback>
+                </Avatar>
+
+                <hr />
+                {/* <MobileSidebar />
+                    <div className="flex w-full justify-end">
+                        <UserButton afterSignOutUrl="/" />
+                    </div> */}
             </div>
-
-            <Avatar>
-                <AvatarImage src={""} />
-                <AvatarFallback>{getInitials(name)}</AvatarFallback>
-            </Avatar>
-
-            <hr />
-            {/* <MobileSidebar /> */}
-            {/* <div className="flex w-full justify-end">
-                <UserButton afterSignOutUrl="/" />
-            </div> */}
-        </div>
+        </>
     );
 }

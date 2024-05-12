@@ -26,58 +26,7 @@ import {
     VideoIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-// const data = [
-//     {
-//         name: "Day 1",
-//         walk: 5,
-//         bike: 15,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 2",
-//         walk: 2,
-//         bike: 10,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 3",
-//         walk: 3,
-//         bike: 7,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 4",
-//         walk: 12,
-//         bike: 2,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 5",
-//         walk: 12,
-//         bike: 15,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 6",
-//         walk: 4,
-//         bike: 10,
-//         car: 10,
-//         bus: 4,
-//     },
-//     {
-//         name: "Day 7",
-//         walk: 2,
-//         bike: 1,
-//         car: 10,
-//         bus: 4,
-//     },
-// ];
+import { useEffect, useState } from "react";
 
 const getLast7Days = () => {
     const dates = [];
@@ -93,119 +42,50 @@ const getLast7Days = () => {
     return dates;
 };
 
-// Function to generate random vehicle data for each day
-// const generateData = () => {
-//     const dates = getLast7Days();
-//     const vehicles = ["Walk", "Motor", "Car", "Bus"];
-
-//     const data = dates.map((date, index) => {
-//         const vehicleData = {};
-//         vehicles.forEach((vehicle) => {
-//             vehicleData[vehicle] = Math.floor(Math.random() * 20); // Random values for demonstration
-//         });
-//         return { name: date, ...vehicleData };
-//     });
-//     return data;
-// };
-
-// const data = generateData();
-
 export default function BarChartModeOfTransport({ data }: any) {
-    // const generateData = () => {
-    //     const dates = getLast7Days();
-    //     const vehicles = ["Walk", "Motor", "Car", "Bus"];
+    const [formattedData, setFormattedData] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
 
-    //     const data = dates.map((date, index) => {
-    //         const vehicleData = {};
-    //         vehicles.forEach((vehicle) => {
-    //             vehicleData[vehicle] = data.filter((item: any) => item.vehicle === vehicle).length,
-    //         });
-    //         return { name: date, ...vehicleData };
-    //     });
-    //     return data;
-    // };
+    useEffect(() => {
+        const generateData = (data: any) => {
+            const dates = getLast7Days();
+            const vehicles = ["walking", "motorcycle", "car", "bus"];
 
-    // const formattedData = generateData();
+            const formattedData = dates.map((date, index) => {
+                const vehicleData: { [key: string]: number } = {};
 
-    // const generateData = (data: any) => {
-    //     const dates = getLast7Days();
-    //     const vehicles = ["walk", "motorcycle", "car", "bus"];
+                data.forEach((item: any) => {
+                    const endTimeDate = new Date(item.endTime.seconds * 1000);
+                    const itemDate = endTimeDate.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "2-digit",
+                    });
 
-    //     const formattedData = dates.map((date, index) => {
-    //         const vehicleData = {};
-
-    //         data.forEach((item: any) => {
-    //             const endTimeDate = new Date(item.endTime.seconds * 1000);
-    //         });
-
-    //         vehicles.forEach((vehicle) => {
-    //             vehicleData[vehicle] = data.filter(
-    //                 (item: any) => item.vehicle === vehicle
-    //             ).length;
-    //         });
-    //         return { name: date, ...vehicleData };
-    //     });
-    //     return formattedData;
-    // };
-
-    const generateData = (data: any) => {
-        const dates = getLast7Days();
-        const vehicles = ["walk", "motorcycle", "car", "bus"];
-
-        // const formattedData = dates.map((date, index) => {
-        //     const vehicleData = {};
-
-        //     data.forEach((item: any) => {
-        //         const endTimeDate = new Date(item.endTime.seconds * 1000);
-        //         const itemDate = endTimeDate.toLocaleDateString("en-US", {
-        //             month: "short",
-        //             day: "2-digit",
-        //         });
-
-        //         if (date === itemDate) {
-        //             vehicles.forEach((vehicle) => {
-        //                 if (!vehicleData[vehicle]) {
-        //                     vehicleData[vehicle] = 0;
-        //                 }
-        //                 if (item.vehicle === vehicle) {
-        //                     vehicleData[vehicle]++;
-        //                 }
-        //             });
-        //         }
-        //     });
-
-        //     return { name: date, ...vehicleData };
-        // });
-
-        const formattedData = dates.map((date, index) => {
-            // Define vehicleData with an index signature
-            const vehicleData: { [key: string]: number } = {};
-
-            data.forEach((item: any) => {
-                const endTimeDate = new Date(item.endTime.seconds * 1000);
-                const itemDate = endTimeDate.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "2-digit",
+                    if (date === itemDate) {
+                        vehicles.forEach((vehicle) => {
+                            if (!vehicleData[vehicle]) {
+                                vehicleData[vehicle] = 0;
+                            }
+                            if (item.vehicle === vehicle) {
+                                vehicleData[vehicle]++;
+                            }
+                        });
+                    }
                 });
 
-                if (date === itemDate) {
-                    vehicles.forEach((vehicle) => {
-                        if (!vehicleData[vehicle]) {
-                            vehicleData[vehicle] = 0;
-                        }
-                        if (item.vehicle === vehicle) {
-                            vehicleData[vehicle]++;
-                        }
-                    });
-                }
+                return { name: date, ...vehicleData };
             });
 
-            return { name: date, ...vehicleData };
-        });
-        return formattedData;
-    };
+            setFormattedData(formattedData);
+            setIsLoading(false); // Set loading state to false after data is formatted
+        };
 
-    const formattedData = generateData(data);
+        generateData(data);
+    }, [data]);
+
+    if (isLoading) {
+        return <p>Loading...</p>; // Display loading state
+    }
 
     return (
         <ResponsiveContainer width="100%" height={300}>
@@ -216,7 +96,7 @@ export default function BarChartModeOfTransport({ data }: any) {
                 <Tooltip />
                 <Legend />
 
-                <Bar dataKey="walk" fill="#6CB9AD" />
+                <Bar dataKey="walking" fill="#6CB9AD" />
                 <Bar dataKey="motorcycle" fill="#324DDD" />
                 <Bar dataKey="car" fill="#EB5757" />
                 <Bar dataKey="bus" fill="#282A3D" />

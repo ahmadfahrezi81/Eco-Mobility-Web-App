@@ -37,6 +37,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -49,6 +51,7 @@ interface DataTableRowActionsProps<TData> {
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { User } from "./columns";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     name: z
@@ -66,6 +69,8 @@ export function DataTableRowActions<TData extends User>({
 }: DataTableRowActionsProps<TData>) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+    const router = useRouter(); // Create a router instance
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -94,16 +99,30 @@ export function DataTableRowActions<TData extends User>({
             await updateDoc(leaderboardRef, { name: values.name });
 
             // Close the edit dialog
-            form.reset();
-
+            // form.reset();
             setIsEditDialogOpen(false);
+
+            toast({
+                title: "Update Successful",
+                description: "The user data has been successfully updated.",
+            });
+
+            document.body.style.pointerEvents = "";
         } catch (error) {
             console.error("Error updating user: ", error);
+
+            toast({
+                title: "Update Failed",
+                description:
+                    "An error occurred while updating user data. Please try again.",
+                variant: "destructive",
+            });
         }
     };
     return (
         <>
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                {/* <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}> */}
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Edit User</DialogTitle>
@@ -165,12 +184,22 @@ export function DataTableRowActions<TData extends User>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[160px]">
-                    <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            setIsEditDialogOpen(true);
+                            //need to to fix the pointer; w/t this it will disable click
+                            //after dialog is open
+                            document.body.style.pointerEvents = "";
+                        }}
+                    >
                         Edit
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                        onClick={() => setIsDeleteDialogOpen(true)}
+                        onClick={() => {
+                            setIsDeleteDialogOpen(true);
+                            document.body.style.pointerEvents = "";
+                        }}
                     >
                         Delete
                     </DropdownMenuItem>

@@ -2,27 +2,46 @@
 
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-import { FIREBASE_AUTH } from "@/firebaseconfig";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "@/firebaseconfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation"; // Correct the import here
 import { useEffect, useState } from "react";
+import { collection, doc, getDoc } from "firebase/firestore";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [admin, setAdmin] = useState<any>();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-            if (user) {
-                // User is authenticated
-                setIsAuthenticated(true);
-                setIsLoading(false);
-            } else {
-                // User is not authenticated, redirect them
-                setIsLoading(false);
-                router.replace("/sign-in");
-            }
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+            const handleUserAuthentication = async () => {
+                if (user) {
+                    // User is authenticated
+                    setIsAuthenticated(true);
+                    setIsLoading(false);
+
+                    const adminRef = doc(FIRESTORE_DB, `admins/${user.uid}`);
+
+                    const docSnap = await getDoc(adminRef);
+
+                    if (docSnap.exists()) {
+                        const adminData = docSnap.data();
+                        setAdmin(adminData);
+                        // console.log("Admin Data:", adminData);
+                    } else {
+                        console.log("Admin document does not exist");
+                    }
+                } else {
+                    // User is not authenticated, redirect them
+                    setIsLoading(false);
+                    router.replace("/sign-in");
+                }
+            };
+
+            // Call the async function
+            await handleUserAuthentication();
         });
 
         // Cleanup the listener on component unmount
@@ -45,7 +64,8 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <Sidebar />
             </div>
             <main className="md:pl-72">
-                <Navbar />
+                <Navbar name={admin?.name || "Loading ..."} />
+
                 {children}
             </main>
         </div>

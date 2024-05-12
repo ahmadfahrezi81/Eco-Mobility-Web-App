@@ -3,7 +3,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FIREBASE_AUTH } from "@/firebaseconfig";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "@/firebaseconfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,11 +20,12 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
+import { FirebaseError } from "firebase/app";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const formSchema = z.object({
-    email: z.string().email({
-        message: "Invalid email address.",
-    }),
+    email: z.string().email(),
     password: z.string().min(6, {
         message: "Password must be at least 6 characters.",
     }),
@@ -46,39 +47,53 @@ export default function Page() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await signInWithEmailAndPassword(
+            const userCredential = await signInWithEmailAndPassword(
                 auth,
                 values.email,
                 values.password
             );
 
-            form.reset();
+            const { user } = userCredential;
+            const uid = user.uid;
 
-            router.push("/dashboard");
-        } catch (error) {
+            console.log(uid);
+
+            const leaderboardRef = collection(FIRESTORE_DB, "admins");
+            const querySnapshot = await getDocs(
+                query(leaderboardRef, where("uid", "==", uid))
+            );
+
+            if (!querySnapshot.empty) {
+                router.push("/dashboard");
+            } else {
+                throw new Error("No matching admins found.");
+            }
+
+            form.reset();
+        } catch (error: any) {
             console.error("Login failed", error);
+
+            // Check if the error is a FirebaseError
+            if (error instanceof FirebaseError) {
+                toast({
+                    title: "Authentication Error",
+                    description: error.message,
+                    variant: "destructive",
+                });
+            } else {
+                // Handle other types of errors
+                toast({
+                    title: "Error",
+                    description: error.message,
+                    variant: "destructive",
+                });
+            }
         }
     };
-    false;
 
     return (
         <>
-            <div className="md:hidden">
-                <Image
-                    src="/examples/authentication-light.png"
-                    width={1280}
-                    height={843}
-                    alt="Authentication"
-                    className="block dark:hidden"
-                />
-                <Image
-                    src="/examples/authentication-dark.png"
-                    width={1280}
-                    height={843}
-                    alt="Authentication"
-                    className="hidden dark:block"
-                />
-            </div>
+            <div className="md:hidden"></div>
             <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
                 <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
                     <div className="absolute inset-0 bg-zinc-900" />

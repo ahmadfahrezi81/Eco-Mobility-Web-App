@@ -37,8 +37,6 @@ export default function DashboardPage() {
         const endDate = startOfToday();
         const startDate = sub(endDate, { days: 7 });
 
-        setLoading(true); // start loading
-
         const subscriber = onSnapshot(trackingActivitiesRef, {
             next: (snapshot) => {
                 const promises = snapshot.docs.map((doc) => {
