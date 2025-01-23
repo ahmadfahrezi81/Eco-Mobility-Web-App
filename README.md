@@ -1,4 +1,4 @@
-# Eco-Mobility Web App🍃
+# Eco-Mobility Web App 🍃
 
 Eco-Mobility Web is a web application designed to promote eco-friendly transportation habits among users. The app provides detailed insights and management tools for administrators to track and promote sustainable transportation.
 
@@ -9,10 +9,9 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
 ## Features
 
 - **Admin Dashboard**: Manage users and view detailed summaries of their activities.
-- **CO2 Emission Calculation**: Calculate the CO2 emissions based on user activities.
 - **Charts and Graphs**: Visualize data with interactive charts and graphs.
-- **User Management**: Secure user authentication and profile management.
-- **Reporting**: Generate reports on user activities and environmental impact.
+- **User Management**: Secure user authentication and profile management.\
+- **Map (Trailling)**: Visualize Trailling collected from Mobile App
 
 ## Technologies Used
 
@@ -68,22 +67,30 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
 1. Sign up or log in using your email.
 2. Manage users and track their activities.
 3. View CO2 emissions and other statistics in the charts.
-4. Generate and download reports.
+4. View Mapping based on Trailing History
 5. Manage your profile.
 
 ## Screenshots
 
-### Admin Dashboard
+### Web App Dashboard
 
-<!-- ![Eco-Mobility Admin Dashboard](public/images/Screenshot-AdminDashboard.png) -->
+![Eco-Mobility Web App Dashboard](public/images/Screenshot-Dashboard.png)
 
-### User Management
+### Web App Map (to see all trailling history)
 
-<!-- ![Eco-Mobility User Management](public/images/Screenshot-UserManagement.png) -->
+![Eco-Mobility Web App Maps](public/images/Screenshot-Map.png)
 
-### Reports
+### Web App User Management
 
-<!-- ![Eco-Mobility Reports](public/images/Screenshot-Reports.png) -->
+![Eco-Mobility Web App User Management](public/images/Screenshot-Users.png)
+
+### Web App Leaderboard
+
+![Eco-Mobility Web App Leaderboard](public/images/Screenshot-Leaderboard.png)
+
+### Web App Settings
+
+![Eco-Mobility Web App Settings](public/images/Screenshot-Settings.png)
 
 ## Contributing
 
