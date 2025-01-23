@@ -1,4 +1,4 @@
-# Eco-Mobility Web 🍃
+# Eco-Mobility Web App🍃
 
 Eco-Mobility Web is a web application designed to promote eco-friendly transportation habits among users. The app provides detailed insights and management tools for administrators to track and promote sustainable transportation.
 
@@ -32,7 +32,6 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
    ```sh
    git clone https://github.com/ahmadfahrezi81/Eco-Mobility-Web-App.git
    ```
-
 2. Install dependencies:
    You can use either npm or pnpm to install the dependencies. Here are the commands for each:
 
@@ -47,8 +46,7 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
    ```sh
    npm install
    ```
-
-3. Set up environment variables:
+3. Set up environment variables (the same as the [mobile app](https://github.com/ahmadfahrezi81/Eco-Mobility)):
    Create a `.env` file in the root directory and add your Firebase configuration:
 
    ```env
@@ -59,7 +57,6 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
    MESSAGING_SENDER_ID=your_messaging_sender_id
    APP_ID=your_app_id
    ```
-
 4. Start the application:
 
    ```sh
