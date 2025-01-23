@@ -2,14 +2,17 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { config } from "dotenv";
+
+config();
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA4KA_cRYtuV_MPYXDp7xmWpXqXn4qETeA",
-    authDomain: "expo-todos-fb.firebaseapp.com",
-    projectId: "expo-todos-fb",
-    storageBucket: "expo-todos-fb.appspot.com",
-    messagingSenderId: "759170877396",
-    appId: "1:759170877396:web:94d8121e835d6c25aa3841",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
 };
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
