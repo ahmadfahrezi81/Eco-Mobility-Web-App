@@ -10,7 +10,7 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
 
 - **Admin Dashboard**: Manage users and view detailed summaries of their activities.
 - **Charts and Graphs**: Visualize data with interactive charts and graphs.
-- **User Management**: Secure user authentication and profile management.\
+- **User Management**: Secure user authentication and profile management.
 - **Map (Trailling)**: Visualize Trailling collected from Mobile App
 
 ## Technologies Used
