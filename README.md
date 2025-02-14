@@ -19,6 +19,28 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
 - **Firebase**: For authentication, Firestore database, and storage.
 - **TypeScript**: For type-safe JavaScript.
 
+## Screenshots
+
+### Web App Dashboard
+
+![Eco-Mobility Web App Dashboard](public/images/Screenshot-Dashboard.png)
+
+### Web App Map (to see all trailling history)
+
+![Eco-Mobility Web App Maps](public/images/Screenshot-Map.png)
+
+### Web App User Management
+
+![Eco-Mobility Web App User Management](public/images/Screenshot-Users.png)
+
+### Web App Leaderboard
+
+![Eco-Mobility Web App Leaderboard](public/images/Screenshot-Leaderboard.png)
+
+### Web App Settings
+
+![Eco-Mobility Web App Settings](public/images/Screenshot-Settings.png)
+
 ## Installation
 
 1. Clone the repository:
@@ -69,28 +91,6 @@ Check out our [video demonstration](https://drive.google.com/file/d/1uZuzMDYD8rT
 3. View CO2 emissions and other statistics in the charts.
 4. View Mapping based on Trailing History
 5. Manage your profile.
-
-## Screenshots
-
-### Web App Dashboard
-
-![Eco-Mobility Web App Dashboard](public/images/Screenshot-Dashboard.png)
-
-### Web App Map (to see all trailling history)
-
-![Eco-Mobility Web App Maps](public/images/Screenshot-Map.png)
-
-### Web App User Management
-
-![Eco-Mobility Web App User Management](public/images/Screenshot-Users.png)
-
-### Web App Leaderboard
-
-![Eco-Mobility Web App Leaderboard](public/images/Screenshot-Leaderboard.png)
-
-### Web App Settings
-
-![Eco-Mobility Web App Settings](public/images/Screenshot-Settings.png)
 
 ## Contributing
 
